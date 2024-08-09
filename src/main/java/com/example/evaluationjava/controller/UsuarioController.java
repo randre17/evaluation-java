@@ -46,10 +46,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseBean> createAlumno(@Valid @RequestBody UsuarioBean usuarioBean) throws ErrorException {
-        System.out.println("Inicio - createAlumno");
+    public ResponseEntity<ResponseBean> createUsuario(@Valid @RequestBody UsuarioBean usuarioBean) throws ErrorException {
+        System.out.println("Inicio - createUsuario");
 
-        UsuarioEntity usuario = service.crearAlumno(usuarioBean);
+        UsuarioEntity usuario = service.createUser(usuarioBean);
         ResponseBean responseBean = new ResponseBean();
         responseBean.setId(String.valueOf(usuario.getId()));
         responseBean.setCreated(String.valueOf(usuario.getCreated()));

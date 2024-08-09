@@ -48,7 +48,7 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioEntity crearAlumno(UsuarioBean obj) throws ErrorException {
+    public UsuarioEntity createUser(UsuarioBean obj) throws ErrorException {
         UsuarioEntity usuarioEntity = new UsuarioEntity();
         usuarioEntity.setName(obj.getName());
         usuarioEntity.setMail(obj.getEmail());
