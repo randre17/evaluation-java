@@ -13,4 +13,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
     @Query(value = "SELECT * FROM USUARIO WHERE active=?",nativeQuery = true)
     public List<UsuarioEntity> findByEstado(int estado);
 
+    @Query(value = "SELECT * FROM USUARIO WHERE mail=?",nativeQuery = true)
+    public UsuarioEntity findByEmail(String email);
+
 }

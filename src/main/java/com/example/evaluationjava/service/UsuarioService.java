@@ -49,23 +49,28 @@ public class UsuarioService {
     }
 
     public UsuarioEntity createUser(UsuarioBean obj) throws ErrorException {
-        UsuarioEntity usuarioEntity = new UsuarioEntity();
-        usuarioEntity.setName(obj.getName());
-        usuarioEntity.setMail(obj.getEmail());
-        usuarioEntity.setActive(1);
-        if(obj.getPhones().isEmpty()){
-            usuarioEntity.setPhones("no-phone");
+        UsuarioEntity usuario = repository.findByEmail(obj.getEmail());
+        if(usuario!=null){
+            throw new ErrorException("Ya existe usuario con el correo ingresado: " + obj.getEmail());
         }else{
-            List<String> phones = new ArrayList<>();
-            obj.getPhones().forEach(x-> {
-                phones.add(x.getCountryCode()+x.getCityCode()+x.getNumber());
-            });
-            usuarioEntity.setPhones(StringUtils.join(phones, ','));
+            UsuarioEntity usuarioEntity = new UsuarioEntity();
+            usuarioEntity.setName(obj.getName());
+            usuarioEntity.setMail(obj.getEmail());
+            usuarioEntity.setActive(1);
+            if(obj.getPhones().isEmpty()){
+                usuarioEntity.setPhones("no-phone");
+            }else{
+                List<String> phones = new ArrayList<>();
+                obj.getPhones().forEach(x-> {
+                    phones.add(x.getCountryCode()+x.getCityCode()+x.getNumber());
+                });
+                usuarioEntity.setPhones(StringUtils.join(phones, ','));
+            }
+            usuarioEntity.setPassword(obj.getPassword());
+            usuarioEntity.setCreated(LocalDateTime.now());
+            usuarioEntity.setModified(LocalDateTime.now());
+            usuarioEntity.setLast_login(LocalDateTime.now());
+            return repository.save(usuarioEntity);
         }
-        usuarioEntity.setPassword(obj.getPassword());
-        usuarioEntity.setCreated(LocalDateTime.now());
-        usuarioEntity.setModified(LocalDateTime.now());
-        usuarioEntity.setLast_login(LocalDateTime.now());
-        return repository.save(usuarioEntity);
     }
 }
